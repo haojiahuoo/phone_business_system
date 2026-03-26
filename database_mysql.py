@@ -47,7 +47,46 @@ class PhoneBusinessSystem:
             print(f"添加客户失败: {e}")
             self.conn.rollback()
             return None
-    
+        
+    def update_customer(self, customer_id, name, phone, wechat=None, address=None, customer_type='retail'):
+        """更新客户信息"""
+        try:
+            self.cursor.execute('''
+                UPDATE customers 
+                SET name = %s, phone = %s, wechat = %s, address = %s, customer_type = %s
+                WHERE id = %s
+            ''', (name, phone, wechat, address, customer_type, customer_id))
+            self.conn.commit()
+            return True
+        except Exception as e:
+            print(f"更新客户失败: {e}")
+            self.conn.rollback()
+            return False
+
+    def delete_customer(self, customer_id):
+        """删除客户"""
+        try:
+            self.cursor.execute('DELETE FROM customers WHERE id = %s', (customer_id,))
+            self.conn.commit()
+            return True
+        except Exception as e:
+            print(f"删除客户失败: {e}")
+            self.conn.rollback()
+            return False
+
+    def get_customer_orders(self, customer_id):
+        """获取客户的订单"""
+        try:
+            self.cursor.execute('''
+                SELECT * FROM sales_orders WHERE customer_id = %s
+                UNION
+                SELECT * FROM repair_orders WHERE customer_id = %s
+            ''', (customer_id, customer_id))
+            return self.cursor.fetchall()
+        except Exception as e:
+            print(f"获取客户订单失败: {e}")
+            return []
+        
     def get_all_customers(self):
         """获取所有客户"""
         self.cursor.execute('SELECT * FROM customers ORDER BY id DESC')

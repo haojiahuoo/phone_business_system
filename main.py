@@ -1,9 +1,15 @@
-# main.py - 修改版本
+# main.py - CustomTkinter 版本
 import sys
 import os
 import traceback
 from datetime import datetime
 from database_mysql import PhoneBusinessSystem
+import customtkinter as ctk
+
+# 设置 CustomTkinter 外观
+ctk.set_appearance_mode("dark")  # 可选: "dark", "light", "system"
+ctk.set_default_color_theme("green")  # 可选: "blue", "green", "dark-blue"
+
 # 重要：将程序所在目录设置为工作目录
 def set_working_directory():
     """设置工作目录为程序所在目录"""
@@ -74,7 +80,7 @@ def main():
         import tkinter as tk
         print("✓ tkinter 导入成功")
         
-        from tkinter import ttk, messagebox, simpledialog
+        from tkinter import messagebox, simpledialog
         print("✓ tkinter 子模块导入成功")
         
         import sqlite3
@@ -90,7 +96,6 @@ def main():
                 print(f"✓ {file} 存在")
             else:
                 print(f"✗ {file} 不存在")
-                # 尝试列出当前目录所有文件
                 print(f"当前目录内容: {os.listdir('.')}")
                 raise FileNotFoundError(f"找不到文件: {file}")
         
@@ -98,8 +103,8 @@ def main():
         from database_mysql import PhoneBusinessSystem
         print("✓ database 模块导入成功")
         
-        # 导入 gui 模块
-        from gui.main_window import MainWindow
+        # 导入 CustomTkinter gui 模块
+        from gui.main_window_ctk import MainWindow
         print("✓ gui 模块导入成功")
         
         print("3. 初始化数据库...")
@@ -117,10 +122,20 @@ def main():
         
         print("4. 创建主窗口...")
         
-        # 创建主窗口
-        root = tk.Tk()
+        # 创建 CustomTkinter 主窗口
+        root = ctk.CTk()
         root.title("手机维修与二手机买卖管理系统")
-        root.geometry("1200x700")
+        root.geometry("1400x800")
+        
+        # 设置窗口最小大小
+        root.minsize(1200, 700)
+        
+        # 设置窗口居中
+        screen_width = root.winfo_screenwidth()
+        screen_height = root.winfo_screenheight()
+        x = (screen_width - 1400) // 2
+        y = (screen_height - 800) // 2
+        root.geometry(f"1400x800+{x}+{y}")
         
         # 设置窗口图标（如果有）
         try:
@@ -152,7 +167,6 @@ def main():
         print(f"启动失败: {e}")
         print(f"详细错误请查看: {log_file}")
         
-        # 尝试显示错误对话框
         try:
             show_error_dialog(str(e))
         except:
