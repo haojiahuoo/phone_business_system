@@ -1,0 +1,3 @@
+# requirements.txt
+# Python标准库即可，无需额外安装
+# 如果使用Python 3.6+，所有依赖都是内置的

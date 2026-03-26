@@ -1,0 +1,15 @@
+============================================================
+错误时间: 2026-03-26 23:19:57.567147
+错误信息: 找不到文件: database.py
+
+Traceback (most recent call last):
+  File "main.py", line 95, in main
+FileNotFoundError: 找不到文件: database.py
+
+详细堆栈:
+Traceback (most recent call last):
+  File "main.py", line 95, in main
+FileNotFoundError: 找不到文件: database.py
+
+============================================================
+
